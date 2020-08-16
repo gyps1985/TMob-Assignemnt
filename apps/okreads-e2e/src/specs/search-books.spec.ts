@@ -17,12 +17,31 @@ describe('When: Use the search feature', () => {
     expect(items.length).to.be.greaterThan(1, 'At least one book');
   });
 
-  xit('Then: I should see search results as I am typing', async () => {
+  it('Then: I should see search results as I am typing', async () => {
     await browser.get('/');
     await browser.wait(
       ExpectedConditions.textToBePresentInElement($('tmo-root'), 'okreads')
     );
+    const form = await $('form');
+    const input = await $('input[type="search"]');
+    await input.sendKeys('j');
+    await input.sendKeys('a');
+    await input.sendKeys('v');
 
-    // TODO: Implement this test!
+    const items = await $$('[data-testing="book-item"]');
+    expect(items.length).to.be.greaterThan(1, 'At least one book');
+  });
+
+  it('Then: I should not see search results when nothing is entered', async () => {
+    await browser.get('/');
+    await browser.wait(
+      ExpectedConditions.textToBePresentInElement($('tmo-root'), 'okreads')
+    );
+    const form = await $('form');
+    const input = await $('input[type="search"]');
+    await input.sendKeys(' ');
+    
+    const items = await $$('[data-testing="book-item"]');
+    expect(items.length).to.be.equals(0,'No Result');
   });
 });
