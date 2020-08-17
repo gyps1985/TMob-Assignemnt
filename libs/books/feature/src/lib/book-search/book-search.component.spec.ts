@@ -1,4 +1,4 @@
-import { expect } from 'chai';
+import { expect, Assertion } from 'chai';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedTestingModule } from '@tmo/shared/testing';
@@ -25,4 +25,18 @@ describe('ProductsListComponent', () => {
   it('should create', () => {
     expect(component).to.exist;
   });
+
+  it('should search books with result on form submit',()=>{
+    component.searchForm.controls['term'].setValue('Javascript');
+    component.searchBooks();
+
+    expect(component.books.length).to.equals(true);
+  })
+
+  it('should give empty result on form submit with no text value',()=>{
+    component.searchForm.controls['term'].setValue('');
+    component.searchBooks();
+
+    expect(component.books.length).to.equals(0);
+  })
 });
